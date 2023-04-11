@@ -1,4 +1,4 @@
-package com.lmio.mlib.config;
+package com.lmio.mlib.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -7,28 +7,35 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.lmio.mlib.security.AuthenticationSucessHandler;
 
 @Configuration
 public class SecurityConfig {
     @Autowired
-    private AuthenticationSucessHandler authenticationSucessHandler;
+    private AuthSuccessHandler authSuccessHandler;
+
+    @Autowired
+    private AuthFailureHandler authFailureHandler;
+
+    @Autowired
+    private AuthEntryPoint authEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
      
         http
-            .formLogin()
-                //.loginPage("/")
-                .loginProcessingUrl("/login")
-                .successHandler(authenticationSucessHandler)
+            .authorizeHttpRequests()
+            .anyRequest().authenticated()
             .and()
-                .authorizeHttpRequests() // 授权配置无需验证的请求
-                .requestMatchers("/login").permitAll()
-                .anyRequest()  // 所有请求
-                .authenticated() // 都需要认证
-            .and().csrf().disable();
- 
+            .formLogin()
+                .loginProcessingUrl("/api/auth/login")
+                .successHandler(authSuccessHandler)
+                .failureHandler(authFailureHandler)
+                .and()
+                .logout()
+                .logoutUrl("/api/auth/logout")
+            .and().csrf().disable()
+            .exceptionHandling()
+            .authenticationEntryPoint(authEntryPoint);
         http.headers().frameOptions().sameOrigin();
  
         return http.build();
