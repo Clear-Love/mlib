@@ -1,7 +1,7 @@
 /*
  * @Author: lmio
  * @Date: 2023-04-11 20:43:42
- * @LastEditTime: 2023-04-11 21:17:45
+ * @LastEditTime: 2023-04-13 17:07:09
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/AuthFailureHandler.java
  * @Description: 
  */
@@ -10,7 +10,7 @@
  * @Date: 2023-04-06 21:49:39
  * @LastEditTime: 2023-04-11 20:43:34
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/AuthSuccessHandler.java
- * @Description: 登陆成功处理逻辑
+ * @Description: 登陆失败处理逻辑
  */
 package com.lmio.mlib.security;
 
