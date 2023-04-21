@@ -1,16 +1,30 @@
 package com.lmio.mlib;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.lmio.mlib.service.RedisService;
 
 @SpringBootTest
 class MlibApplicationTests {
+	@Autowired
+	private RedisService redisService;
 
 	@Test
 	void contextLoads() {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println(encoder.encode("123456"));
+		
 	}
 
+	@Test
+	public void testRedis() {
+		String key = "testKey";
+		String value = "testValue";
+		redisService.setValue(key, value);
+		Object result = redisService.getValue(key);
+		System.out.println(result);
+		assertEquals(value, result);
+	}
 }

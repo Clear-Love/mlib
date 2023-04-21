@@ -37,6 +37,9 @@ public class SecurityConfig {
     @Autowired
     private MyLogoutSuccessHandler logoutSuccessHandler;
 
+    @Autowired
+    private RedisPersistentRe redisPersistentRe;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
      
@@ -52,6 +55,10 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/api/auth/logout")
                 .logoutSuccessHandler(logoutSuccessHandler)
+                .and()
+                .rememberMe()
+                .rememberMeParameter("remember")
+                .tokenRepository(redisPersistentRe)
                 .and().csrf().disable()
                 .cors()
                 .configurationSource(this.corsConfigurationSource())
