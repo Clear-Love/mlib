@@ -40,7 +40,7 @@ public class AuthorizeController {
      */    
     @PostMapping("valid-email")
     public RestBean<String> validateEmail(@Pattern(regexp = EMAIL_REGEX)
-    @RequestParam("email") String email, HttpSession session) {
+    @RequestParam("email") String email) {
         if (service.sendValidateEmail(email)){
             return RestBean.success("验证邮件已发送");
         }else {

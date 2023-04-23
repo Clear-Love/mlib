@@ -25,7 +25,7 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+            throws IOException {
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(JSONObject.toJSONString(RestBean.success("退出登录！")));
     }
