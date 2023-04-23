@@ -1,18 +1,18 @@
 /*
  * @Author: lmio
  * @Date: 2023-04-21 17:24:37
- * @LastEditTime: 2023-04-21 17:37:53
- * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/service/RedisService.java
+ * @LastEditTime: 2023-04-23 16:35:27
+ * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/service/impl/RedisServiceimpl.java
  * @Description: 
  */
-package com.lmio.mlib.service;
+package com.lmio.mlib.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RedisService {
+public class RedisServiceimpl {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;

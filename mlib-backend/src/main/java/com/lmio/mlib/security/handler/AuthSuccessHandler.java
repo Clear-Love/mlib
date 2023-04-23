@@ -5,7 +5,7 @@
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/AuthSuccessHandler.java
  * @Description: 登陆成功处理逻辑
  */
-package com.lmio.mlib.security;
+package com.lmio.mlib.security.handler;
 
 import java.io.IOException;
 import org.springframework.security.core.Authentication;

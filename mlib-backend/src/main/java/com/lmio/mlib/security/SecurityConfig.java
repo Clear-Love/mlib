@@ -14,6 +14,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.lmio.mlib.security.handler.AuthFailureHandler;
+import com.lmio.mlib.security.handler.AuthSuccessHandler;
+import com.lmio.mlib.security.handler.MyLogoutSuccessHandler;
 import com.lmio.mlib.service.AuthorizeService;
 
 import jakarta.annotation.Resource;
@@ -25,19 +28,19 @@ public class SecurityConfig {
     @Resource
     AuthorizeService authorizeService;
 
-    @Autowired
+    @Resource
     private AuthSuccessHandler authSuccessHandler;
 
-    @Autowired
+    @Resource
     private AuthFailureHandler authFailureHandler;
 
-    @Autowired
+    @Resource
     private AuthEntryPoint authEntryPoint;
 
-    @Autowired
+    @Resource
     private MyLogoutSuccessHandler logoutSuccessHandler;
 
-    @Autowired
+    @Resource
     private RedisPersistentRe redisPersistentRe;
 
     @Bean
@@ -45,6 +48,7 @@ public class SecurityConfig {
      
         http
             .authorizeHttpRequests()
+            .requestMatchers("api/auth/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()

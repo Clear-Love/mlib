@@ -1,15 +1,26 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mlib?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/mlib?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
       host: localhost
       port: 6379
-      password:
       database: 0
       timeout: 10000
+  mail:
+    host: smtp.163.com
+    username: lmiomail@163.com
+    password: VPNNRWHYFWJHSRPN
+    port: 465
+    properties:
+      form: lmiomail@163.com
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+
 
 # 开发环境配置
 server:

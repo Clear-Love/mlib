@@ -5,7 +5,7 @@
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/MyLogoutSuccessHandler.java
  * @Description: 
  */
-package com.lmio.mlib.security;
+package com.lmio.mlib.security.handler;
 
 import java.io.IOException;
 

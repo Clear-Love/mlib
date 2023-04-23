@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.lmio.mlib.service.RedisService;
+import com.lmio.mlib.service.impl.RedisServiceimpl;
 
 @SpringBootTest
 class MlibApplicationTests {
 	@Autowired
-	private RedisService redisService;
+	private RedisServiceimpl redisService;
 
 	@Test
 	void contextLoads() {

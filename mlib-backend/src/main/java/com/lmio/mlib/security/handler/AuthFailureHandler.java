@@ -1,8 +1,8 @@
 /*
  * @Author: lmio
  * @Date: 2023-04-11 20:43:42
- * @LastEditTime: 2023-04-13 17:07:09
- * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/AuthFailureHandler.java
+ * @LastEditTime: 2023-04-23 16:48:16
+ * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/handler/AuthFailureHandler.java
  * @Description: 
  */
 /*
@@ -12,7 +12,7 @@
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/security/AuthSuccessHandler.java
  * @Description: 登陆失败处理逻辑
  */
-package com.lmio.mlib.security;
+package com.lmio.mlib.security.handler;
 
 import java.io.IOException;
 import org.springframework.security.core.AuthenticationException;
