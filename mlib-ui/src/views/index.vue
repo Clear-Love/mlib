@@ -6,14 +6,14 @@
         <el-button type="primary" @click="logout()">
             退出登录
         </el-button>
-        
+
     </div>
 </template>
 
 <script setup>
 import {get} from '@/utils/request';
 import router from '../router';
-import { ElMessage } from 'element-plus';
+import {ElMessage} from 'element-plus';
 
 const logout = () => {
     get('/api/auth/logout', (message) => {

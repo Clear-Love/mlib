@@ -8,17 +8,17 @@
 <template>
     <div class="login-container">
         <div style="flex: 1;">
-            
+
         </div>
         <div style="width: 350px;">
             <router-view v-slot="{ Component }">
                 <transition>
-                    <component :is="Component" />
+                    <component :is="Component"/>
                 </transition>
             </router-view>
         </div>
         <div style="flex: 1;">
-            
+
         </div>
     </div>
 </template>

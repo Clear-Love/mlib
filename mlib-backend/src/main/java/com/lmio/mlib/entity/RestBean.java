@@ -31,6 +31,10 @@ public class RestBean<T> {
         return new RestBean<T>(200, true, message);
     }
 
+    public static <T> RestBean<T> success(int status, T message) {
+        return  new RestBean<T>(status, true, message);
+    }
+
     public static <T> RestBean<T> failure() {
         return new RestBean<T>(401, false, null);
     }
@@ -39,4 +43,7 @@ public class RestBean<T> {
         return new RestBean<T>(401, false, message);
     }
 
+    public static <T> RestBean<T> failure(int status, T message) {
+        return new RestBean<T>(status, false, message);
+    }
 }

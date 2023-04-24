@@ -10,6 +10,7 @@ package com.lmio.mlib.service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AuthorizeService extends UserDetailsService {
-    boolean sendValidateEmail(String email);
+    String sendValidateEmail(String email);
+    String validateAndRegister(String username, String password, String email, String code);
 }
 
