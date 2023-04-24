@@ -149,7 +149,7 @@ const register = () => {
                 email: form.email,
                 code: form.code,
             }, (message) => {
-                ElMessage.success('注册成功')
+                ElMessage.success(message)
             })
         } else {
             ElMessage.warning('您还未填写完成注册信息')

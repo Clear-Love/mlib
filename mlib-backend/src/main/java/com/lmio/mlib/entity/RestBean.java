@@ -24,26 +24,26 @@ public class RestBean<T> {
     }
 
     public static <T> RestBean<T> success() {
-        return new RestBean<T>(200, true, null);
+        return new RestBean<>(200, true, null);
     }
 
     public static <T> RestBean<T> success(T message) {
-        return new RestBean<T>(200, true, message);
+        return new RestBean<>(200, true, message);
     }
 
     public static <T> RestBean<T> success(int status, T message) {
-        return  new RestBean<T>(status, true, message);
+        return  new RestBean<>(status, true, message);
     }
 
     public static <T> RestBean<T> failure() {
-        return new RestBean<T>(401, false, null);
+        return new RestBean<>(401, false, null);
     }
 
     public static <T> RestBean<T> failure(T message) {
-        return new RestBean<T>(401, false, message);
+        return new RestBean<>(401, false, message);
     }
 
     public static <T> RestBean<T> failure(int status, T message) {
-        return new RestBean<T>(status, false, message);
+        return new RestBean<>(status, false, message);
     }
 }

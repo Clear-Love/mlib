@@ -25,7 +25,6 @@ import com.lmio.mlib.service.AuthorizeService;
 
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class AuthorizeServiceimpl implements AuthorizeService {

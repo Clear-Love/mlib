@@ -8,7 +8,6 @@
 
 package com.lmio.mlib.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
