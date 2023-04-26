@@ -1,13 +1,13 @@
 <template>
     <div style="background-color: white;text-align: center;">
-        <div style="margin-top: 150px">
-            <div style="font-size: 25px;">账号注册</div>
+        <div style="margin-top: 100px">
+            <div style="font-size: 30px;">账号注册</div>
         </div>
         <div style="margin-top: 30px">
             <el-form :model="form" :rules="rules" ref="formRef"
-                     label-position="left" label-width="80px"
-                     size="default" @validate="onValidate">
-                <el-form-item label="用户名" prop="username">
+                     label-position="right" label-width="0px"
+                     size="large" @validate="onValidate">
+                <el-form-item prop="username">
                     <el-input v-model="form.username" :maxlength="10" type="text" placeholder="用户名">
                         <template #prefix>
                             <el-icon>
@@ -16,7 +16,7 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item prop="password">
                     <el-input v-model="form.password" :maxlength="16" type="password" placeholder="密码">
                         <template #prefix>
                             <el-icon>
@@ -25,7 +25,7 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="重复密码" prop="re_password">
+                <el-form-item prop="re_password">
                     <el-input v-model="form.re_password" :maxlength="16" type="password" placeholder="重复密码">
                         <template #prefix>
                             <el-icon>
@@ -34,8 +34,8 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="电子邮件" prop="email">
-                    <el-input v-model="form.email" style="width: 300px;" type="email" placeholder="电子邮件地址">
+                <el-form-item prop="email">
+                    <el-input v-model="form.email" type="email" placeholder="电子邮件地址">
                         <template #prefix>
                             <el-icon>
                                 <Message/>
@@ -43,7 +43,7 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item label="验证码" prop="code" style="width: 100%">
+                <el-form-item prop="code" style="width: 100%">
                     <el-row :gutter="10">
                         <el-col :span="12" :offset="0">
                             <el-input v-model="form.code" :maxlength="6" type="text" placeholder="请输入验证码">
@@ -55,7 +55,8 @@
                             </el-input>
                         </el-col>
                         <el-col :span="12" :offset="0" style="text-align: right">
-                            <el-button type="primary" :disabled="!isEmailValid || coldTime > 0" @click="validateEmail">{{coldTime > 0? '请稍后' + coldTime + '秒': '获取验证码'}}
+                            <el-button type="primary" :disabled="!isEmailValid || coldTime > 0" @click="validateEmail">
+                                {{ coldTime > 0 ? '请稍后' + coldTime + '秒' : '获取验证码' }}
                             </el-button>
                         </el-col>
                     </el-row>
@@ -158,7 +159,7 @@ const register = () => {
 }
 
 const validateEmail = () => {
-    post('api/auth/valid-email', {
+    post('api/auth/valid-register-email', {
         email: form.email
     }, (message) => {
         ElMessage.success(message)

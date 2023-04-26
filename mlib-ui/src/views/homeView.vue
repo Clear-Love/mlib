@@ -2,7 +2,7 @@
  * @Author: lmio
  * @Date: 2023-04-13 14:15:29
  * @LastEditTime: 2023-04-22 17:35:44
- * @FilePath: /mlib/mlib-ui/src/views/home.vue
+ * @FilePath: /mlib/mlib-ui/src/views/homeView.vue
  * @Description: 
 -->
 <template>
@@ -12,8 +12,8 @@
         </div>
         <div style="width: 350px;">
             <router-view v-slot="{ Component }">
-                <transition>
-                    <component :is="Component"/>
+                <transition name="el-fade-in-linear" mode="out-in">
+                    <component :is="Component" style="height: 100%"/>
                 </transition>
             </router-view>
         </div>

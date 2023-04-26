@@ -70,8 +70,8 @@ public class AuthorizeServiceimpl implements AuthorizeService {
      * @return {*}
      */    
     @Override
-    public String sendValidateEmail(String email) {
-        String key = "email" + email;
+    public String sendValidateEmail(String email, boolean hasAccount) {
+        String key = "email" + email + hasAccount;
         if (Boolean.TRUE.equals(template.hasKey(key))) {
             Long expire = template.getExpire(key, TimeUnit.SECONDS);
             expire = expire == null ? 0: expire;
@@ -79,8 +79,12 @@ public class AuthorizeServiceimpl implements AuthorizeService {
                 return "请求频繁，请稍后再试";
             }
         }
-        if(mapper.findAccountByNameOrEmail(email) != null) {
+        Account account = mapper.findAccountByNameOrEmail(email);
+        if (account != null && !hasAccount) {
             return "此邮箱已经被注册";
+        }
+        if (account == null && hasAccount) {
+            return "没有此邮箱的账户";
         }
         Random random = new Random();
         int code = random.nextInt(900000) + 100000;
@@ -102,7 +106,7 @@ public class AuthorizeServiceimpl implements AuthorizeService {
 
     @Override
     public String validateAndRegister(String username, String password, String email, String code) {
-        String key = "email" + email;
+        String key = "email" + email + false;
         if(Boolean.TRUE.equals(template.hasKey(key))) {
             String s = template.opsForValue().get(key);
             if (s == null) {
@@ -110,6 +114,7 @@ public class AuthorizeServiceimpl implements AuthorizeService {
             }
             if (s.equals(code)) {
                 password = passwordEncoder.encode(password);
+                template.delete(key);
                 if (mapper.createAccount(username, password, email) > 0) {
                     return null;
                 }else {
@@ -120,5 +125,29 @@ public class AuthorizeServiceimpl implements AuthorizeService {
             }
         }
         return "请获取验证码后再试";
+    }
+
+    @Override
+    public String validateOnly(String email, String code) {
+        String key = "email" + email + true;
+        if(Boolean.TRUE.equals(template.hasKey(key))) {
+            String s = template.opsForValue().get(key);
+            if (s == null) {
+                return "验证码失效，请重新请求";
+            }
+            if (s.equals(code)) {
+                template.delete(key);
+                return null;
+            }else {
+                return "验证码错误，请重新检查后再提交";
+            }
+        }
+        return "请获取验证码后再试";
+    }
+
+    @Override
+    public boolean resetPassword(String email, String password) {
+        password = passwordEncoder.encode(password);
+        return mapper.resetPasswordByEmail(email, password) > 0;
     }
 }

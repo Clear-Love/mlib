@@ -6,23 +6,28 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
-      component: () => import('@/views/home.vue'),
+      component: () => import('@/views/homeView.vue'),
       children: [
         {
           path: '',
           name: 'login-page',
-          component: () => import('@/components/home/loginPage.vue'),
+          component: () => import('@/components/welcome/loginPage.vue'),
         },
         {
           path: 'register',
           name: 'register-page',
-          component: () => import('@/components/home/registerPage.vue')
+          component: () => import('@/components/welcome/registerPage.vue')
+        },
+        {
+          path: 'forget',
+          name: 'forget-page',
+          component: () => import('@/components/welcome/forgetPage.vue')
         }
       ]
     }, {
       path: '/index',
       name: 'index',
-      component: () => import('@/views/index.vue')
+      component: () => import('@/views/indexView.vue')
     }
   ]
 })
