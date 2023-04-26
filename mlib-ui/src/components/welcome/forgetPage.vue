@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import {EditPen, Lock, Message, User} from "@element-plus/icons-vue";
+import {EditPen, Lock, Message} from "@element-plus/icons-vue/dist/types";
 import {reactive, ref} from "vue";
 import {post} from "@/utils/request";
 import {ElMessage} from "element-plus";
