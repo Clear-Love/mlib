@@ -23,8 +23,8 @@ public interface UserMapper {
     @Select("select * from db_account join user_config on db_account.username = user_config.username where db_account.username = #{username}")
     UserConfig findUserConfigByName(String username);
 
-    @Insert("insert into user_config (accountId name, email, level, exp) values (#{userConfig.accountId}, #{userConfig.name}, #{userConfig.email}, #{userConfig.level} #{userConfig.exp})")
-    int createUserConfig(UserConfig userConfig);
+    @Insert("insert into user_config (username, level, exp) values (#{userConfig.username}, 0, 0)")
+    int createUserConfig(String username);
 
     @Insert("insert into db_account (username, password, email, role) values (#{username}, #{password}, #{email}, 'user')")
     int createAccount(String username, String password, String email);

@@ -1,6 +1,5 @@
 package com.lmio.mlib.service.impl;
 
-import com.lmio.mlib.entity.UserConfig;
 import com.lmio.mlib.mapper.UserMapper;
 import com.lmio.mlib.service.MapperService;
 import jakarta.annotation.Resource;
@@ -30,7 +29,7 @@ public class MapperServiceimpl implements MapperService {
     public String register(String username, String password, String email) {
         // 创建用户账户 创建用户配置
         if (userMapper.createAccount(username, password, email) > 0 &&
-                userMapper.createUserConfig(new UserConfig(username)) > 0) {
+                userMapper.createUserConfig(username) > 0) {
             return null;
         }
         return "内部错误";
