@@ -1,7 +1,5 @@
 package com.lmio.mlib.service;
 
-import org.springframework.transaction.annotation.Transactional;
-
 /**
  * @Author: lmio
  * @Description: TODO
