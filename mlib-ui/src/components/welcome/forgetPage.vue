@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import {EditPen, Lock, Message} from "@element-plus/icons-vue/dist/types";
+import {EditPen, Lock, Message} from "@element-plus/icons-vue";
 import {reactive, ref} from "vue";
 import {post} from "@/utils/request";
 import {ElMessage} from "element-plus";
@@ -130,14 +130,20 @@ const rules = {
     ],
 }
 
+const intervalId = ref(0)
+
 const validateEmail = () => {
+    coldTime.value = 60
+    clearInterval(intervalId.value)
     post('api/auth/valid-reset-email', {
         email: form.email
     }, (message) => {
         ElMessage.success(message)
-        coldTime.value = 60
-        setInterval(() => coldTime.value--, 1000)
+    }, (message) => {
+        ElMessage.warning(message)
+        coldTime.value = 1
     })
+    intervalId.value = setInterval(() => coldTime.value--, 1000)
 }
 
 const startReset = () => {
@@ -148,6 +154,7 @@ const startReset = () => {
                 code: form.code,
             }, (message) => {
                 active.value++
+                clearInterval(intervalId.value)
                 ElMessage.success(message)
             })
         }else {

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    @GetMapping("/me")
-    public RestBean<UserConfig> getUserConfig(@SessionAttribute("user-config") UserConfig userConfig) {
+    @GetMapping("/info")
+    public RestBean<UserConfig> getUserConfig(@SessionAttribute("user-info") UserConfig userConfig) {
         return RestBean.success(userConfig);
     }
 }

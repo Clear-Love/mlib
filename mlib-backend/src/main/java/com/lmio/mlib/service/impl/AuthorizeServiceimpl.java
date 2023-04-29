@@ -10,6 +10,7 @@ package com.lmio.mlib.service.impl;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.lmio.mlib.service.MapperService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,6 +29,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class AuthorizeServiceimpl implements AuthorizeService {
+
+    @Resource
+    MapperService mapperService;
 
     @Resource
     private UserMapper mapper;
@@ -56,7 +60,7 @@ public class AuthorizeServiceimpl implements AuthorizeService {
         return User
                 .withUsername(account.getUsername())
                 .password(account.getPassword())
-                .roles("admin")
+                .roles(account.getRole())
                 .build();
     }
 
@@ -115,11 +119,7 @@ public class AuthorizeServiceimpl implements AuthorizeService {
             if (s.equals(code)) {
                 password = passwordEncoder.encode(password);
                 template.delete(key);
-                if (mapper.createAccount(username, password, email) > 0) {
-                    return null;
-                }else {
-                    return "内部错误，请联系管理员";
-                }
+                return mapperService.register(username, password, email);
             }else {
                 return "验证码错误，请重新检查后再提交";
             }

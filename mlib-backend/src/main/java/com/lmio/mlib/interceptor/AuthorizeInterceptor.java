@@ -29,13 +29,13 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request,@Nullable HttpServletResponse response,@Nullable Object handler) throws Exception {
         SecurityContext context = SecurityContextHolder.getContext();
-        System.out.println("qingqiulanjie");
         Authentication authentication = context.getAuthentication();
         User user = (User) authentication.getPrincipal();
         String username = user.getUsername();
-        UserConfig userConfig =  mapper.findUserConfigByNameOrEmail(username);
+        UserConfig userConfig =  mapper.findUserConfigByName(username);
+        System.out.println(userConfig);
         if (request != null) {
-            request.getSession().setAttribute("user-config", userConfig);
+            request.getSession().setAttribute("user-info", userConfig);
         }else {
             return false;
         }

@@ -11,7 +11,14 @@ import lombok.Data;
 
 @Data
 public class UserConfig {
-    int id;
     String username;
     String email;
+    int level;
+    int exp;
+
+    public UserConfig(String username) {
+        this.level = 0;
+        this.exp = 0;
+        this.username = username;
+    }
 }

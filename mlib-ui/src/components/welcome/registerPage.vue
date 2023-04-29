@@ -151,6 +151,8 @@ const register = () => {
                 code: form.code,
             }, (message) => {
                 ElMessage.success(message)
+                clearInterval(intervalId.value)
+                router.push('/')
             })
         } else {
             ElMessage.warning('您还未填写完成注册信息')
@@ -158,14 +160,20 @@ const register = () => {
     })
 }
 
+const intervalId = ref(0)
+
 const validateEmail = () => {
+    coldTime.value = 60
+    clearInterval(intervalId.value)
     post('api/auth/valid-register-email', {
         email: form.email
     }, (message) => {
         ElMessage.success(message)
-        coldTime.value = 60
-        setInterval(() => coldTime.value--, 1000)
+    }, (message) => {
+        ElMessage.warning(message)
+        coldTime.value = 1
     })
+    intervalId.value = setInterval(() => coldTime.value--, 1000)
 }
 </script>
 
