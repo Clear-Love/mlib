@@ -28,8 +28,9 @@ public class MapperServiceimpl implements MapperService {
     @Override
     public String register(String username, String password, String email) {
         // 创建用户账户 创建用户配置
-        if (userMapper.createAccount(username, password, email) > 0 &&
-                userMapper.createUserConfig(username) > 0) {
+        if (userMapper.createAccount(username, password, email) > 0) {
+            int userId = userMapper.findIDByNameOrEmail(username);
+            userMapper.createUserConfig(userId, String.valueOf(userId));
             return null;
         }
         return "内部错误";

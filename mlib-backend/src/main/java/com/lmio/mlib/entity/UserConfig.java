@@ -2,6 +2,8 @@ package com.lmio.mlib.entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Author: lmio
  * @Description: TODO
@@ -11,8 +13,14 @@ import lombok.Data;
 
 @Data
 public class UserConfig {
-    String username;
-    String email;
-    int level;
-    int exp;
+    private int userId;
+    private String phoneNumber;
+    private String introduction;
+    private String address;
+    private String nickname;
+    private Date dateOfBirth;
+    private int level;
+    private int exp;
+    private String avatar;
+    private String gender;
 }
