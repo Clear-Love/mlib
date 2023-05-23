@@ -1,7 +1,13 @@
-package com.lmio.mlib.service;/**
+package com.lmio.mlib.service;
+
+/**
  * @Author: lmio
  * @Description: TODO
  * @Date: 下午8:00 2023/5/18
  * @Modified By:lmio
- */public interface BookListService {
+ */
+
+
+public interface BookListService {
+    int createBookList(int userId, String bookListName);
 }

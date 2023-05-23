@@ -7,16 +7,22 @@
  */
 package com.lmio.mlib.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.lmio.mlib.service.MapperService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +38,9 @@ public class AuthorizeServiceimpl implements AuthorizeService {
 
     @Resource
     MapperService mapperService;
+
+    @Resource
+    private HttpServletRequest request;
 
     @Resource
     private UserMapper mapper;
@@ -57,10 +66,20 @@ public class AuthorizeServiceimpl implements AuthorizeService {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
 
+        HttpSession session = request.getSession();
+        session.setAttribute("user-info", account);
+
+        // 得到用户角色
+        String role = account.getRole();
+        // 角色集合
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        // 角色必须以`ROLE_`开头，数据库中没有，则在这里加
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+
         return User
                 .withUsername(account.getUsername())
                 .password(account.getPassword())
-                .roles(account.getRole())
+                .authorities(authorities)
                 .build();
     }
 
@@ -109,7 +128,19 @@ public class AuthorizeServiceimpl implements AuthorizeService {
     }
 
     @Override
+    public String validateUsername(String username) {
+        if (mapper.findAccountByNameOrEmail(username) != null ) {
+            return "该用户已经存在";
+        }
+        return null;
+    }
+
+    @Override
     public String validateAndRegister(String username, String password, String email, String code) {
+        String message = validateUsername(username);
+        if (message != null) {
+            return message;
+        }
         String key = "email" + email + false;
         if(Boolean.TRUE.equals(template.hasKey(key))) {
             String s = template.opsForValue().get(key);

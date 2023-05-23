@@ -48,6 +48,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests()
             .requestMatchers("api/auth/**").permitAll()
+                .requestMatchers("api/book/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()

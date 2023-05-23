@@ -1,207 +1,145 @@
-create table mlib.book_format
-(
-    format_name  varchar(50)  not null comment '格式名称'
-        primary key,
-    location_url varchar(255) null comment '图书路径'
-)
-    comment '图书格式';
+CREATE TABLE `book` (
+                        `isbn` varchar(20) DEFAULT NULL COMMENT 'ISBN编号',
+                        `language` varchar(50) DEFAULT NULL COMMENT '语言',
+                        `collect_count` int NOT NULL DEFAULT '0' COMMENT '收藏次数',
+                        `title` varchar(255) NOT NULL COMMENT '书名',
+                        `author` varchar(512) NOT NULL COMMENT '作者',
+                        `description` varchar(500) DEFAULT NULL COMMENT '简介',
+                        `publish_date` varchar(100) DEFAULT NULL COMMENT '出版时间',
+                        `book_id` int NOT NULL AUTO_INCREMENT COMMENT '图书id',
+                        `publisher` varchar(255) DEFAULT NULL COMMENT '出版社',
+                        `rating_num` varchar(20) DEFAULT NULL COMMENT '评分',
+                        `price` varchar(255) DEFAULT NULL COMMENT '价格',
+                        `cover_image` varchar(255) DEFAULT NULL COMMENT '封面',
+                        PRIMARY KEY (`book_id`),
+                        UNIQUE KEY `ISBN_unique` (`isbn`) COMMENT 'isbn'
+) ENGINE=InnoDB AUTO_INCREMENT=46713 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='图书'
 
-create table mlib.book_type
-(
-    id        int auto_increment
-        primary key,
-    type_name varchar(50) not null comment '图书类型名称',
-    constraint type_name
-        unique (type_name)
-)
-    comment '图书类型';
+CREATE TABLE `book_format` (
+                               `format_id` int NOT NULL AUTO_INCREMENT COMMENT '格式id',
+                               `format_name` varchar(50) NOT NULL COMMENT '格式名称',
+                               PRIMARY KEY (`format_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='图书格式'
 
-create table mlib.db_account
-(
-    id       int auto_increment comment '用户id'
-        primary key,
-    username varchar(255) null comment '用户名',
-    password varchar(255) null comment '密码',
-    email    varchar(255) null comment '邮箱',
-    role     varchar(5)   not null comment '角色',
-    constraint unique_email
-        unique (email) comment '邮箱唯一',
-    constraint unique_name
-        unique (username) comment '用户名唯一'
-)
-    comment '账号';
+CREATE TABLE `book_format_relation` (
+                                        `format_id` int NOT NULL COMMENT '格式名称',
+                                        `location_url` varchar(255) NOT NULL COMMENT '图书路径',
+                                        `uuid` int NOT NULL,
+                                        `book_id` int NOT NULL COMMENT '图书id',
+                                        PRIMARY KEY (`book_id`,`format_id`),
+                                        KEY `book_format_relation_book_format_format_id_fk` (`format_id`),
+                                        CONSTRAINT `book_format_relation_book_book_id_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
+                                        CONSTRAINT `book_format_relation_book_format_format_id_fk` FOREIGN KEY (`format_id`) REFERENCES `book_format` (`format_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='图书格式关系'
 
-create table mlib.bookList
-(
-    list_id       int auto_increment comment '书单ID'
-        primary key,
-    list_name     varchar(100)                       not null comment '书单名称',
-    description   varchar(500)                       null comment '书单描述',
-    create_time   datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-    creat_user    int                                not null comment '创建者',
-    collect_count int      default 0                 null comment '收藏数量',
-    constraint bookList_db_account_id_fk
-        foreign key (creat_user) references mlib.db_account (id)
-)
-    comment '书单';
+CREATE TABLE `book_type` (
+                             `id` int NOT NULL AUTO_INCREMENT,
+                             `type_name` varchar(50) NOT NULL COMMENT '图书类型名称',
+                             PRIMARY KEY (`id`),
+                             UNIQUE KEY `type_name` (`type_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='图书类型'
 
-create definer = root@`%` trigger mlib.tr_db_account_role_check
-    before insert
-    on mlib.db_account
-    for each row
-BEGIN
-    IF NEW.role NOT IN ('admin', 'user') THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid role value';
-END IF;
-END;
+CREATE TABLE `book_type_relation` (
+                                      `book_id` int NOT NULL COMMENT '图书id',
+                                      `type_id` int NOT NULL COMMENT '图书类型id',
+                                      PRIMARY KEY (`book_id`,`type_id`),
+                                      KEY `book_type_relation_fk_2` (`type_id`),
+                                      CONSTRAINT `book_type_relation_fk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
+                                      CONSTRAINT `book_type_relation_fk_2` FOREIGN KEY (`type_id`) REFERENCES `book_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='图书类型标签关系'
 
-create table mlib.publisher
-(
-    publisher_name varchar(100) not null comment '出版社名称',
-    publisher_id   int          not null comment '出版社id'
-        primary key
-)
-    comment '出版社';
+CREATE TABLE `bookList` (
+                            `list_id` int NOT NULL AUTO_INCREMENT COMMENT '书单ID',
+                            `list_name` varchar(100) NOT NULL COMMENT '书单名称',
+                            `description` varchar(500) DEFAULT NULL COMMENT '书单描述',
+                            `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                            `create_user` int NOT NULL COMMENT '创建者',
+                            `collect_count` int DEFAULT '0' COMMENT '收藏数量',
+                            `book_count` int NOT NULL DEFAULT '0' COMMENT '包含图书数',
+                            PRIMARY KEY (`list_id`),
+                            KEY `bookList_db_account_id_fk` (`create_user`),
+                            CONSTRAINT `bookList_db_account_id_fk` FOREIGN KEY (`create_user`) REFERENCES `db_account` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='书单'
 
-create table mlib.book
-(
-    ISBN             varchar(20)    not null comment 'ISBN编号',
-    language         varchar(50)    null comment '语言',
-    word_count       int default -1 not null comment '字数',
-    collect_count    int default 0  not null comment '收藏次数',
-    book_name        varchar(100)   not null comment '书名',
-    author           varchar(100)   not null comment '作者',
-    introduction     varchar(500)   null comment '简介',
-    publication_time date           null comment '出版时间',
-    book_format      varchar(50)    null comment '图书格式',
-    publisher_id     int            null comment '出版社id',
-    id               int auto_increment comment '图书id'
-        primary key,
-    constraint book_fk_1
-        foreign key (book_format) references mlib.book_format (format_name),
-    constraint book_fk_2
-        foreign key (publisher_id) references mlib.publisher (publisher_id)
-)
-    comment '图书';
+CREATE TABLE `bookList_book_relation` (
+                                          `book_id` int NOT NULL COMMENT '图书ID',
+                                          `list_id` int NOT NULL COMMENT '书单ID',
+                                          PRIMARY KEY (`book_id`,`list_id`),
+                                          KEY `book_id` (`book_id`),
+                                          KEY `list_id` (`list_id`),
+                                          CONSTRAINT `bookList_book_relation_fk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
+                                          CONSTRAINT `bookList_book_relation_fk_2` FOREIGN KEY (`list_id`) REFERENCES `bookList` (`list_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='书单和书的关系'
 
-create table mlib.bookList_book_relation
-(
-    id      int auto_increment comment 'ID'
-        primary key,
-    book_id int not null comment '图书ID',
-    list_id int not null comment '书单ID',
-    constraint bookList_book_relation_fk_1
-        foreign key (book_id) references mlib.book (id),
-    constraint bookList_book_relation_fk_2
-        foreign key (list_id) references mlib.bookList (list_id)
-)
-    comment '书单和书的关系';
+CREATE TABLE `db_account` (
+                              `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                              `username` varchar(255) NOT NULL COMMENT '用户名',
+                              `password` varchar(255) NOT NULL COMMENT '密码',
+                              `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
+                              `phone_number` varchar(20) DEFAULT NULL COMMENT '电话',
+                              `introduction` varchar(255) DEFAULT NULL COMMENT '简介',
+                              `nickname` varchar(20) DEFAULT NULL COMMENT '昵称',
+                              `date_of_birth` datetime DEFAULT NULL COMMENT '生日',
+                              `level` int NOT NULL DEFAULT '0' COMMENT '等级',
+                              `exp` int NOT NULL DEFAULT '0' COMMENT '经验',
+                              `avatar` varchar(100) DEFAULT NULL COMMENT '头像url',
+                              `gender` enum('男','女','私密') NOT NULL DEFAULT '私密' COMMENT '性别',
+                              `role_id` int NOT NULL COMMENT '角色id',
+                              PRIMARY KEY (`user_id`),
+                              UNIQUE KEY `unique_name` (`username`) USING BTREE COMMENT '用户名唯一' /*!80000 INVISIBLE */,
+                              UNIQUE KEY `unique_email` (`email`) USING BTREE COMMENT '邮箱唯一' /*!80000 INVISIBLE */,
+                              KEY `db_account_role_role_id_fk` (`role_id`),
+                              CONSTRAINT `db_account_role_role_id_fk` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
+                              CONSTRAINT `user_level_check` CHECK ((`level` between 0 and 6))
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='账号'
 
-create index book_id
-    on mlib.bookList_book_relation (book_id);
+CREATE TABLE `role` (
+                        `role_id` int NOT NULL AUTO_INCREMENT,
+                        `role` varchar(255) DEFAULT NULL,
+                        `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
+                        PRIMARY KEY (`role_id`),
+                        UNIQUE KEY `role_role_uindex` (`role`) COMMENT '角色名唯一'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
-create index list_id
-    on mlib.bookList_book_relation (list_id);
+CREATE TABLE `user_collection_bookLists` (
+                                             `user_id` int NOT NULL COMMENT '用户id',
+                                             `bookList_id` int NOT NULL COMMENT '书单id',
+                                             PRIMARY KEY (`user_id`,`bookList_id`),
+                                             KEY `user_collection_bookLists_fk_2` (`bookList_id`),
+                                             CONSTRAINT `user_collection_bookLists_fk_1` FOREIGN KEY (`user_id`) REFERENCES `db_account` (`user_id`),
+                                             CONSTRAINT `user_collection_bookLists_fk_2` FOREIGN KEY (`bookList_id`) REFERENCES `bookList` (`list_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
-create table mlib.book_type_relation
-(
-    book_id int not null comment '图书id',
-    type_id int not null comment '图书类型id',
-    primary key (book_id, type_id),
-    constraint book_type_relation_fk_1
-        foreign key (book_id) references mlib.book (id),
-    constraint book_type_relation_fk_2
-        foreign key (type_id) references mlib.book_type (id)
-)
-    comment '图书类型标签关系';
+CREATE TABLE `user_collection_books` (
+                                         `user_id` int NOT NULL COMMENT '用户id',
+                                         `book_id` int NOT NULL COMMENT '图书id',
+                                         PRIMARY KEY (`user_id`,`book_id`),
+                                         KEY `user_collection_books_fk_2` (`book_id`),
+                                         CONSTRAINT `user_collection_books_fk_1` FOREIGN KEY (`user_id`) REFERENCES `db_account` (`user_id`),
+                                         CONSTRAINT `user_collection_books_fk_2` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
-create index type_id
-    on mlib.book_type_relation (type_id);
+CREATE TABLE `user_comment_book` (
+                                     `book_id` int NOT NULL,
+                                     `user_id` int NOT NULL,
+                                     `content` varchar(500) DEFAULT NULL,
+                                     `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                     `is_long` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为长评',
+                                     PRIMARY KEY (`user_id`,`book_id`),
+                                     KEY `book_id` (`book_id`),
+                                     CONSTRAINT `user_comment_book_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`),
+                                     CONSTRAINT `user_comment_book_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `db_account` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='评论图书'
 
-create table mlib.user_collection_bookLists
-(
-    user_id     int not null comment '用户id',
-    bookList_id int not null comment '书单id',
-    primary key (user_id, bookList_id),
-    constraint user_collection_bookLists_fk_1
-        foreign key (user_id) references mlib.db_account (id),
-    constraint user_collection_bookLists_fk_2
-        foreign key (bookList_id) references mlib.bookList (list_id)
-);
-
-create index bookList_id
-    on mlib.user_collection_bookLists (bookList_id);
-
-create definer = root@`%` trigger mlib.increase_bookList_collect_count
-    after insert
-    on mlib.user_collection_bookLists
-    for each row
-BEGIN
-UPDATE bookList
-SET collect_count = collect_count + 1
-WHERE bookList.list_id = NEW.bookList_id;
-END;
-
-create table mlib.user_collection_books
-(
-    user_id int not null comment '用户id',
-    book_id int not null comment '图书id',
-    primary key (user_id, book_id),
-    constraint user_collection_books_fk_1
-        foreign key (user_id) references mlib.db_account (id),
-    constraint user_collection_books_fk_2
-        foreign key (book_id) references mlib.book (id)
-);
-
-create index book_id
-    on mlib.user_collection_books (book_id);
-
-create definer = root@`%` trigger mlib.increase_book_collect_count
-    after insert
-    on mlib.user_collection_books
-    for each row
-BEGIN
-UPDATE book
-SET collect_count = collect_count + 1
-WHERE book.id = NEW.book_id;
-END;
-
-create table mlib.user_config
-(
-    user_id       int                                      not null comment '用户uid'
-        primary key,
-    phone_number  varchar(20)                              null comment '电话',
-    introduction  varchar(255)                             null comment '简介',
-    address       varchar(50)                              null comment '地址',
-    nickname      varchar(20)                              not null comment '昵称',
-    date_of_birth datetime                                 null comment '生日',
-    level         int                       default 0      null comment '等级',
-    exp           int                       default 0      null comment '经验',
-    avatar        varchar(100)                             null comment '头像url',
-    gender        enum ('男', '女', '私密') default '私密' not null comment '性别',
-    constraint user_config_db_account_id_fk
-        foreign key (user_id) references mlib.db_account (id),
-    check (`level` between 0 and 6)
-);
-
-create table mlib.comment
-(
-    comment_id int auto_increment
-        primary key,
-    book_id    int                                             not null,
-    user_id    int                                             not null,
-    content    varchar(500)                                    null,
-    time       timestamp             default CURRENT_TIMESTAMP null,
-    type       enum ('短评', '长评') default '短评'            not null,
-    constraint comment_fk_1
-        foreign key (book_id) references mlib.book (id),
-    constraint comment_fk_2
-        foreign key (user_id) references mlib.user_config (user_id)
-);
-
-create index book_id
-    on mlib.comment (book_id);
-
-create index user_id
-    on mlib.comment (user_id);
+CREATE TABLE `user_comment_bookList` (
+                                         `bookList_id` int NOT NULL,
+                                         `user_id` int NOT NULL,
+                                         `content` varchar(500) DEFAULT NULL,
+                                         `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                         PRIMARY KEY (`user_id`,`bookList_id`),
+                                         KEY `comment_fk_1` (`bookList_id`),
+                                         KEY `comment_fk_2` (`user_id`),
+                                         CONSTRAINT `user_comment_book_fk_1` FOREIGN KEY (`bookList_id`) REFERENCES `bookList` (`list_id`),
+                                         CONSTRAINT `user_comment_book_fk_2` FOREIGN KEY (`user_id`) REFERENCES `db_account` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='评论书单'
 

@@ -2,6 +2,7 @@ package com.lmio.mlib.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -12,16 +13,17 @@ import java.sql.Date;
  */
 
 @Data
-public class Book {
-    private String isbn; // ISBN编号（主码）
+public class Book implements Serializable {
+    private String isbn; // ISBN编号
+    private int bookId;
     private String title; // 书名
     private String author; // 作者
     private String publisher; // 出版社名称（外码）
-    private Date publishDate; // 出版时间
+    private String publishDate; // 出版时间
     private String language; // 语言
-    private int wordCount; // 字数
-    private int downloadCount; // 下载次数
-    private long fileSize; // 文件大小
-    private String bookFormat; // 图书格式（外码）
-    private String introduction; // 简介
+    private int collectCount; // 收藏次数
+    private String description; // 简介
+    private String price; // 价格
+    private String coverImage; //封面
+    private String ratingNUm; //评分
 }

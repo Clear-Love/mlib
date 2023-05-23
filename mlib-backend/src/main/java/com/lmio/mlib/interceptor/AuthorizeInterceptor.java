@@ -1,6 +1,6 @@
 package com.lmio.mlib.interceptor;
 
-import com.lmio.mlib.entity.UserConfig;
+import com.lmio.mlib.entity.Account;
 import com.lmio.mlib.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,10 +32,9 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
         Authentication authentication = context.getAuthentication();
         User user = (User) authentication.getPrincipal();
         String username = user.getUsername();
-        UserConfig userConfig =  mapper.findUserConfigByName(username);
-        System.out.println(userConfig);
+        Account account =  mapper.findAccountByNameOrEmail(username);
         if (request != null) {
-            request.getSession().setAttribute("user-info", userConfig);
+            request.getSession().setAttribute("user-info", account);
         }else {
             return false;
         }

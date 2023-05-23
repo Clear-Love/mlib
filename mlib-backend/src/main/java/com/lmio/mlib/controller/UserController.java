@@ -1,7 +1,7 @@
 package com.lmio.mlib.controller;
 
+import com.lmio.mlib.entity.Account;
 import com.lmio.mlib.entity.RestBean;
-import com.lmio.mlib.entity.UserConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @RequestMapping("/api/user")
 public class UserController {
     @GetMapping("/info")
-    public RestBean<UserConfig> getUserConfig(@SessionAttribute("user-info") UserConfig userConfig) {
-        return RestBean.success(userConfig);
+    public RestBean<Account> getUserConfig(@SessionAttribute("user-info") Account account) {
+        return RestBean.success(account);
     }
 }

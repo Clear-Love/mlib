@@ -31,10 +31,6 @@ public class RestBean<T> {
         return new RestBean<>(200, true, message);
     }
 
-    public static <T> RestBean<T> success(int status, T message) {
-        return  new RestBean<>(status, true, message);
-    }
-
     public static <T> RestBean<T> failure() {
         return new RestBean<>(401, false, null);
     }

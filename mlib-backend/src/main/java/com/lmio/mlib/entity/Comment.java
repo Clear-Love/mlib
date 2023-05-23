@@ -2,6 +2,8 @@ package com.lmio.mlib.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Author: lmio
  * @Description: TODO
@@ -10,7 +12,7 @@ import lombok.Data;
  */
 
 @Data
-public class comment {
+public class Comment implements Serializable {
     private int comment_id; // 评论id
     private int book_id; // 图书id
     private int user_id; // 用户id
