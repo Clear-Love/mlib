@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
 
-type MessageType = "" | "info" | "success" | "error" | "warning";
-
 export const useSnackbarStore = defineStore({
   id: "snackbarStore",
   state: () => ({
@@ -21,10 +19,31 @@ export const useSnackbarStore = defineStore({
 
   getters: {},
   actions: {
-    showMessage(message: string, type:MessageType) {
+    showMessage(message: string) {
       this.isShow = true;
       this.message = message;
-      this.type = type;
+      this.type = "";
+    },
+
+    showErrorMessage(message: string) {
+      this.isShow = true;
+      this.message = message;
+      this.type = "error";
+    },
+    showSuccessMessage(message: string) {
+      this.isShow = true;
+      this.message = message;
+      this.type = "success";
+    },
+    showInfoMessage(message: string) {
+      this.isShow = true;
+      this.message = message;
+      this.type = "info";
+    },
+    showWarningMessage(message: string) {
+      this.isShow = true;
+      this.message = message;
+      this.type = "warning";
     },
   },
 });

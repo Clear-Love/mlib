@@ -34,12 +34,12 @@ const layouts = {
 type LayoutName = "default" | "ui" | "landing" | "auth" | "error";
 
 const currentLayout = computed(() => {
-  const layoutName = route.meta.layout as LayoutName;
+  const layoutName = route.meta["layout"] as LayoutName
   if (!layoutName) {
-    return DefaultLayout;
+    return DefaultLayout
   }
-  return layouts[layoutName];
-});
+  return layouts[layoutName]
+})
 </script>
 
 <style scoped></style>

@@ -115,9 +115,9 @@ export default {
     remember: false,
     show: false,
     rules: {
-      required: value => !!value || '请输入',
-      password: v => v.length >= 6 && v.length <= 16 || '密码长度应该在6到16位',
-      username: v => v.length >= 3 && v.length <= 10 || '用户名长度应该在3-10位',
+      required: (val:string) => !!val || '请输入',
+      password: (val:string) => val.length >= 6 && val.length <= 16 || '密码长度应该在6到16位',
+      username: (val:string) => val.length >= 3 && val.length <= 10 || '用户名长度应该在3-10位',
     },
   }),
   methods: {
@@ -130,7 +130,7 @@ export default {
       }, () => {
         router.push('/index')
       }, (message) => {
-        this.snackbar.showMessage(message, "error")
+        this.snackbar.showErrorMessage(message)
       })
       setTimeout(() => (this.loading = false), 200)
     }

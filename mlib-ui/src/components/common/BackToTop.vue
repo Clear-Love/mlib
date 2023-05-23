@@ -4,29 +4,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import {Icon} from "@iconify/vue";
+<script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import {onMounted, onUnmounted, ref} from "vue";
+const isVisible = ref(false);
 
-export default {
-  components: {Icon},
-  data: () => ({
-    isVisible: false,
-  }),
-  onMounted() {
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  onUnmounted() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
-  methods: {
-    handleScroll: () => {
-      this.isVisible = window.scrollY > 200;
-    },
-    scrollToTop: () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    },
-  }
-}
+const handleScroll = () => {
+  isVisible.value = window.scrollY > 200;
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 </script>
 
 <style lang="scss" scoped>

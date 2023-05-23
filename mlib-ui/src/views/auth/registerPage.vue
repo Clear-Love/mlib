@@ -154,21 +154,21 @@ export default {
     show1: false,
     show2: false,
     rules: {
-      required: val => !!val || '请输入',
+      required: (val:string) => !!val || '请输入',
       username: {
-        size: val => val.length >= 3 && val.length <= 10 || '用户长度应该在3-10位',
-        re: val => username_pattern.test(val) || "用户名只能由字母或数组组成",
+        size: (val:string) => val.length >= 3 && val.length <= 10 || '用户长度应该在3-10位',
+        re: (val:string) => username_pattern.test(val) || "用户名只能由字母或数组组成",
       },
-      password: val => val.length >= 6 && val.length <= 16 || "密码长度应该在6-16位",
-      email: val => email_pattern.test(val) || '请输入正确的邮箱',
-      code: val => val.length === 6 || "验证码应该为6位"
+      password: (val:string) => val.length >= 6 && val.length <= 16 || "密码长度应该在6-16位",
+      email: (val:string) => email_pattern.test(val) || '请输入正确的邮箱',
+      code: (val:string) => val.length === 6 || "验证码应该为6位"
     }
   }),
   beforeUnmount () {
     clearInterval(this.interval)
   },
   mounted() {
-    this.interval = setInterval(() => {
+    this.interval = window.setInterval(() => {
       if (this.coldTime < 0) {
         return (this.coldTime = 0)
       }
@@ -176,7 +176,7 @@ export default {
     }, 1000);
   },
   methods: {
-    validatePassword(value) {
+    validatePassword(value:string) {
       return value === this.password || "两次输入密码不一致";
     },
     register() {
@@ -189,10 +189,10 @@ export default {
           email: this.email,
           code: this.code,
         }, (message) => {
-          this.snackbar.showMessage(message, "success")
+          this.snackbar.showSuccessMessage(message)
           router.push('/')
         }, (message) => {
-          this.snackbar.showMessage(message, "warning")
+          this.snackbar.showWarningMessage(message)
         })
       }
       setTimeout(() => (this.loading = false), 500)
@@ -203,10 +203,10 @@ export default {
         post('api/auth/valid-register-email', {
           email: this.email
         }, (message) => {
-          this.snackbar.showMessage(message, "success")
+          this.snackbar.showSuccessMessage(message)
           this.coldTime = 60
         }, (message) => {
-          this.snackbar.showMessage(message, "warning")
+          this.snackbar.showWarningMessage(message)
         },)
       }
     }

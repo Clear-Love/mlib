@@ -5,7 +5,7 @@ interface handler {
   (message:string, status:number):void
 }
 
-const err = () => useSnackbarStore().showMessage("发生了一些错误", "error")
+const err = () => useSnackbarStore().showMessage("发生了一些错误")
 
 const defaultHandler = () => {}
 

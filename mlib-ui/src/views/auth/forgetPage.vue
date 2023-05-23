@@ -133,6 +133,7 @@ import {post} from "@/utils/request";
 import router from "@/router";
 import {useSnackbarStore} from "@/stores/sanckbarStore";
 
+
 export default {
   data: () => ({
     router,
@@ -152,14 +153,14 @@ export default {
     valid2: false,
     loading: false,
     rules: {
-      required: val => !!val || '请输入',
+      required: (val:string) => !!val || '请输入',
       username: {
-        size: val => val.length >= 3 && val.length <= 10 || '用户长度应该在3-10位',
-        re: val => username_pattern.test(val) || "用户名只能由字母或数组组成",
+        size: (val:string) => val.length >= 3 && val.length <= 10 || '用户长度应该在3-10位',
+        re: (val:string) => username_pattern.test(val) || "用户名只能由字母或数组组成",
       },
-      password: val => val.length >= 6 && val.length <= 16 || "密码长度应该在6-16位",
-      email: val => email_pattern.test(val) || '请输入正确的邮箱',
-      code: val => val.length == 6 || "验证码应该为6位"
+      password: (val:string) => val.length >= 6 && val.length <= 16 || "密码长度应该在6-16位",
+      email: (val:string) => email_pattern.test(val) || '请输入正确的邮箱',
+      code: (val:string) => val.length == 6 || "验证码应该为6位"
     }
   }),
   beforeUnmount() {
@@ -167,15 +168,15 @@ export default {
   },
   mounted() {
     this.text = '验证邮箱'
-    this.interval = setInterval(() => {
+    this.interval = window.setInterval(() => {
       if (this.coldTime < 0) {
         return (this.coldTime = 0)
       }
       this.coldTime--
-    }, 1000);
+    }, 1000)
   },
   methods: {
-    validatePassword(value) {
+    validatePassword(value:string) {
       return value === this.password || "两次输入密码不一致";
     },
     valid_code() {
@@ -184,11 +185,11 @@ export default {
           email: this.email,
           code: this.code,
         }, (message) => {
-          this.snackbar.showMessage(message, "success")
+          this.snackbar.showSuccessMessage(message)
           this.icon = 'mdi-lock'
           this.step = 2
         }, (message) => {
-          this.snackbar.showMessage(message, "warning")
+          this.snackbar.showWarningMessage(message)
         })
       this.loading = false
     },
@@ -197,22 +198,22 @@ export default {
       post('api/auth/do-reset', {
         password: this.password,
       }, (message) => {
-        this.snackbar.showMessage(message, "success")
+        this.snackbar.showSuccessMessage(message)
         }, (message) => {
-        this.snackbar.showMessage(message, "error")
+        this.snackbar.showErrorMessage(message)
       })
       this.loading = false
     },
     async validateEmail() {
-      const valid = await this.$refs.form_email.validate();
+      let valid = await this?.$refs.form_email?.validate();
       if (this.coldTime <= 0 && valid.length === 0) {
         post('/api/auth/valid-reset-email', {
           email: this.email
         }, (message) => {
-          this.snackbar.showMessage(message, "success")
+          this.snackbar.showSuccessMessage(message)
           this.coldTime = 60
         }, (message) => {
-          this.snackbar.showMessage(message, "warning")
+          this.snackbar.showWarningMessage(message)
         })
       }
     }
