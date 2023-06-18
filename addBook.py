@@ -10,12 +10,15 @@ db = pymysql.connect(
     database='mlib'
 )
 
+bookCount = 0
+
 def addBooks(Path:str):
+    global bookCount
     # 创建游标对象
     cursor = db.cursor()
 
      # 提取图书类型（根据文件名）
-    book_type = Path.split('/')[-1].split('.')[0]  # 获取文件名并去除扩展名
+    book_type = Path.split('\\')[-1]  # 获取文件名并去除扩展名
 
     # 查询图书类型是否已存在于数据库中
     query = "SELECT id FROM book_type WHERE type_name = %s"
@@ -48,7 +51,6 @@ def addBooks(Path:str):
 
             if result is not None:
                 book_id = result[0]
-                print(f"标题 '{title}' 已存在于数据库中，跳过插入。")
                 # 将图书与类型关系添加到图书类型关系表
                 # 检查关系是否已存在于数据库中
                 query = "SELECT COUNT(*) FROM book_type_relation WHERE book_id = %s AND type_id = %s"
@@ -79,17 +81,17 @@ def addBooks(Path:str):
             # 构建插入语句
             insert_query = "INSERT INTO book (title, author, publisher, publish_date, description, price, rating_num, language, cover_image) " \
                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            bookCount += 1
+            print(f"已经添加了{bookCount}本图书")
 
             # 执行插入操作
             cursor.execute(insert_query, (title, author_info, publisher, publish_date, description, price_info, rating_num, language, cover_image))
-
             # 获取新插入行的book_id
             book_id = cursor.lastrowid
 
             # 将图书与类型关系添加到图书类型关系表
             relation_insert_query = "INSERT INTO book_type_relation (book_id, type_id) VALUES (%s, %s)"
             cursor.execute(relation_insert_query, (book_id, type_id))
-        
 
         # 提交更改
         db.commit()

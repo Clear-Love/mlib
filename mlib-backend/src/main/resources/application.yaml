@@ -11,11 +11,6 @@ spring:
       max-file-size: 200MB
       max-request-size: 215MB
 
-  redis:
-      host: localhost
-      port: 6379
-      database: 0
-      timeout: 10000
   mail:
     host: smtp.163.com
     username: lmiomail@163.com
@@ -27,6 +22,12 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+  data:
+    redis:
+      timeout: 10000
+      database: 0
+      port: 6379
+      host: localhost
 
 
 # 开发环境配置

@@ -7,19 +7,24 @@
  */
 package com.lmio.mlib.mapper;
 
+import com.lmio.mlib.entity.Account;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import com.lmio.mlib.entity.Account;
+import com.lmio.mlib.entity.User;
 import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
 
-    @Select("SELECT a.*, r.role FROM db_account a JOIN role r ON a.role_id = r.role_id" +
-            " where a.username = #{text} or a.email = #{text}")
+    @Select("SELECT * FROM db_account " +
+            " where username = #{text} or email = #{text}")
     Account findAccountByNameOrEmail(String text);
+
+    @Select("SELECT * FROM db_account " +
+            " where username = #{text} or email = #{text}")
+    User findUserByNameOrEmail(String text);
 
     @Insert("insert into db_account (username, password, email, role_id) values " +
             "(#{userName}, #{password}, #{email}, " +

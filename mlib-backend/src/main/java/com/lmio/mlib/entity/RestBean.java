@@ -12,34 +12,41 @@ import lombok.Data;
 @Data
 public class RestBean<T> {
     private int status;
-
-    private T message;
-
+    private String message;
     private boolean success;
+    private T data;
 
-    private RestBean(int status, boolean success, T message) {
+    private RestBean(int status, boolean success, String message) {
         this.status = status;
         this.success = success;
         this.message = message;
+        this.data = null;
     }
 
-    public static <T> RestBean<T> success() {
-        return new RestBean<>(200, true, null);
+    private RestBean(int status, boolean success, String message, T data) {
+        this.status = status;
+        this.success = success;
+        this.message = message;
+        this.data = data;
     }
 
-    public static <T> RestBean<T> success(T message) {
+    public static <T> RestBean<T> success(String message) {
         return new RestBean<>(200, true, message);
     }
 
-    public static <T> RestBean<T> failure() {
-        return new RestBean<>(401, false, null);
+    public static <T> RestBean<T> success(String message, T data) {
+        return new RestBean<>(200, true, message, data);
     }
 
-    public static <T> RestBean<T> failure(T message) {
+    public static <T> RestBean<T> success(T data) {
+        return new RestBean<>(200, true, "OK", data);
+    }
+
+    public static <T> RestBean<T> failure(String message) {
         return new RestBean<>(401, false, message);
     }
 
-    public static <T> RestBean<T> failure(int status, T message) {
-        return new RestBean<>(status, false, message);
+    public static <T> RestBean<T> failure(int status, T data) {
+        return new RestBean<>(status, false, null, data);
     }
 }

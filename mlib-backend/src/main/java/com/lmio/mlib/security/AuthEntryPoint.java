@@ -27,7 +27,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(JSONObject.toJSONString(RestBean.failure("没有权限")));
+        response.getWriter().write(JSONObject.toJSONString(RestBean.failure("非法请求")));
     }
     
 }

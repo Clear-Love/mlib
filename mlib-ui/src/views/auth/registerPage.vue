@@ -6,7 +6,7 @@
   >
     <v-banner
       lines="one"
-      icon="mdi-account-plus"
+      icon="mdi-user-plus"
       color="primary"
     >
       <v-banner-text class="text-h5 font-weight-bold mt-1">
@@ -23,7 +23,7 @@
           color="primary"
           label="用户名"
           placeholder="请输入您的用户名"
-          prepend-inner-icon="mdi-account"
+          prepend-inner-icon="mdi-user"
           clearable
           :rules="[rules.required, rules.username.size, rules.username.re]"
           variant="outlined"
@@ -134,7 +134,7 @@ import router from "@/router";
 import {post} from "@/utils/request";
 import {useSnackbarStore} from "@/stores/sanckbarStore";
 
-const email_pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const email_pattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 
 const username_pattern = /^[a-zA-Z0-9]+$/
 export default {
@@ -197,16 +197,16 @@ export default {
       }
       setTimeout(() => (this.loading = false), 500)
     },
-    async validateEmail() {
-      const valid = await this.$refs.form_email.validate();
-      if (this.coldTime <= 0 && valid.length == 0) {
-        post('api/auth/valid-register-email', {
+    validateEmail() {
+      if (this.coldTime <= 0 && email_pattern.test(this.email)) {
+        this.coldTime = 60
+        post('/api/auth/valid-register-email', {
           email: this.email
         }, (message) => {
           this.snackbar.showSuccessMessage(message)
-          this.coldTime = 60
         }, (message) => {
           this.snackbar.showWarningMessage(message)
+          this.coldTime = 0
         },)
       }
     }

@@ -199,21 +199,22 @@ export default {
         password: this.password,
       }, (message) => {
         this.snackbar.showSuccessMessage(message)
+        router.push('/auth/login')
         }, (message) => {
         this.snackbar.showErrorMessage(message)
       })
       this.loading = false
     },
     async validateEmail() {
-      let valid = await this?.$refs.form_email?.validate();
-      if (this.coldTime <= 0 && valid.length === 0) {
+      this.coldTime = 60
+      if (email_pattern.test(this.email)) {
         post('/api/auth/valid-reset-email', {
           email: this.email
         }, (message) => {
           this.snackbar.showSuccessMessage(message)
-          this.coldTime = 60
         }, (message) => {
           this.snackbar.showWarningMessage(message)
+          this.coldTime = 0
         })
       }
     }

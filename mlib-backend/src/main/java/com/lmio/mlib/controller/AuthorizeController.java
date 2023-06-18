@@ -45,6 +45,7 @@ public class AuthorizeController {
                                               @RequestParam("email") String email) {
         String message = service.sendValidateEmail(email, false);
         if (message == null){
+            System.out.println("发送");
             return RestBean.success("验证邮件已发送");
         }else {
             return RestBean.failure(message);
@@ -56,6 +57,7 @@ public class AuthorizeController {
                                                   @RequestParam("email") String email) {
         String message = service.sendValidateEmail(email, true);
         if (message == null){
+            System.out.println("发送");
             return RestBean.success("验证邮件已发送");
         }else {
             return RestBean.failure(message);

@@ -1,6 +1,6 @@
 package com.lmio.mlib.interceptor;
 
-import com.lmio.mlib.entity.Account;
+import com.lmio.mlib.entity.User;
 import com.lmio.mlib.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +9,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -30,11 +29,11 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
     public boolean preHandle(@Nullable HttpServletRequest request,@Nullable HttpServletResponse response,@Nullable Object handler) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
-        User user = (User) authentication.getPrincipal();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         String username = user.getUsername();
-        Account account =  mapper.findAccountByNameOrEmail(username);
+        User userinfo =  mapper.findUserByNameOrEmail(username);
         if (request != null) {
-            request.getSession().setAttribute("user-info", account);
+            request.getSession().setAttribute("user-info", userinfo);
         }else {
             return false;
         }

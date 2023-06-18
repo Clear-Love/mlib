@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.lmio.mlib.entity.Account;
+import com.lmio.mlib.entity.User;
 import com.lmio.mlib.service.MapperService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,10 +25,8 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import com.lmio.mlib.entity.Account;
 import com.lmio.mlib.mapper.UserMapper;
 import com.lmio.mlib.service.AuthorizeService;
 
@@ -66,8 +66,10 @@ public class AuthorizeServiceimpl implements AuthorizeService {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
 
+        User userinfo = mapper.findUserByNameOrEmail(username);
+
         HttpSession session = request.getSession();
-        session.setAttribute("user-info", account);
+        session.setAttribute("user-info", userinfo);
 
         // 得到用户角色
         String role = account.getRole();
@@ -76,7 +78,7 @@ public class AuthorizeServiceimpl implements AuthorizeService {
         // 角色必须以`ROLE_`开头，数据库中没有，则在这里加
         authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
 
-        return User
+        return org.springframework.security.core.userdetails.User
                 .withUsername(account.getUsername())
                 .password(account.getPassword())
                 .authorities(authorities)
@@ -125,6 +127,7 @@ public class AuthorizeServiceimpl implements AuthorizeService {
             e.printStackTrace();
             return "邮件发送失败，请检查邮件地址是否有效";
         }
+
     }
 
     @Override
