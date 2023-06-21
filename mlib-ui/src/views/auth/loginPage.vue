@@ -27,7 +27,7 @@
           placeholder="请输入用户名或者邮件地址"
           :rules="[rules.required, rules.username]"
           clearable
-          prepend-inner-icon="mdi-user"
+          prepend-inner-icon="mdi-account"
           type="text"
           required>
         </v-text-field>
