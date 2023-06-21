@@ -28,34 +28,6 @@ public class EbookServiceimpl implements EbookService {
     BookMapper mapper;
 
     @Override
-    public String addBook(MultipartFile ebookFile, int bookId) {
-        String uuid = String.valueOf(bookId + 1000000);
-        String originalFilename = ebookFile.getOriginalFilename();
-        String fileExtension = StringUtils.getFilenameExtension(originalFilename);
-        String filePath = "contain/books/" + uuid + "." + fileExtension;
-        File file = new File(filePath);
-        // 检查目录是否存在，如果不存在则创建
-        File directory = file.getParentFile();
-        if (!directory.exists()) {
-            boolean created = directory.mkdirs();
-            if (!created) {
-                return "无法创建目录";
-            }
-        }
-        if (mapper.addBookPath(bookId, fileExtension, filePath, uuid) == 0) {
-            return "插入失败";
-        }
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(ebookFile.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            return e.getMessage();
-        }
-        return null;
-    }
-
-    @Override
     public List<Book> findBookByTitle(String title) {
         return mapper.findBookByTitle(title);
     }

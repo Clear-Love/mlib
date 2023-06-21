@@ -13,7 +13,6 @@ import java.util.List;
  * @Modified By:lmio
  */
 public interface EbookService {
-    String addBook(MultipartFile ebookFile, int bookId);
 
     List<Book> findBookByTitle(String title);
 

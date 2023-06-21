@@ -2,7 +2,7 @@ import axios from 'axios'
 import {useSnackbarStore} from "@/stores/sanckbarStore";
 
 interface handler {
-  (message:string, status:number):void
+  (message:string, status:number, data:any):void
 }
 
 const err = () => useSnackbarStore().showMessage("发生了一些错误")
@@ -17,9 +17,9 @@ function post(url:string, data:any, success:handler = defaultHandler, failure:ha
     withCredentials: true
   }).then(({data}) => {
     if(data.success) {
-      success(data.message, data.status)
+      success(data.message, data.status, data.data)
     }else {
-      failure(data.message, data.status)
+      failure(data.message, data.status, data.data)
     }
   }).catch(error)
 }
@@ -29,9 +29,9 @@ function get(url:string, success:handler = defaultHandler, failure:handler = def
     withCredentials: true
   }).then(({data}) => {
     if(data.success) {
-      success(data.message, data.status)
+      success(data.message, data.status, data.data)
     }else {
-      failure(data.message, data.status)
+      failure(data.message, data.status, data.data)
     }
   }).catch(error)
 }

@@ -29,21 +29,4 @@ public class BookController {
         List<Book> books = ebookService.findBooksByText(text);
         return RestBean.success(books);
     }
-
-    @PostMapping("/upload")
-    public RestBean<String> uploadFile(@RequestParam("file") MultipartFile file,
-                                       @RequestParam("bookId") int bookId) {
-        if (file.isEmpty()) {
-            return RestBean.failure(501, "文件为空");
-        }
-        if (ebookService.findBookById(bookId) == null) {
-            return RestBean.failure("找不到该书");
-        }
-        String message = ebookService.addBook(file, bookId);
-        if (message != null) {
-            return RestBean.failure(message);
-        }
-        return RestBean.success("File uploaded successfully");
-    }
-
 }
