@@ -1,6 +1,7 @@
 # 基础镜像
-FROM node:16.12 AS build
+FROM node:20.3.0 AS build
 WORKDIR /app
+ENV API_BASE_URL http://localhost:8080
 COPY ./ .
 RUN yarn install && yarn run build
 
