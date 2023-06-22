@@ -1,7 +1,7 @@
 # 基础镜像
 FROM node:20.3.0 AS build
 WORKDIR /app
-ENV API_BASE_URL http://localhost:8080
+ENV API_BASE_URL http://localhost:8080 #换成你的IP地址或者域名
 COPY ./ .
 RUN yarn install && yarn run build
 
