@@ -23,7 +23,7 @@ import * as process from "process";
 const app = createApp(App)
 const pinia = createPinia();
 pinia.use(piniaPersist);
-axios.defaults.baseURL = import.meta.env.VITE_BASE_API
+axios.defaults.baseURL = import.meta.env.VITE_BASE_API || "http://localhost:8080"
 app.use(pinia)
 app.use(MasonryWall)
 app.use(Vue3Lottie, { name: "LottieAnimation" });
