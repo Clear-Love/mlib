@@ -123,6 +123,7 @@ export default {
   methods: {
     login() {
       this.loading = true
+      console.log(import.meta.env.VITE_BASE_URL)
       post('/api/auth/login', {
         username: this.username,
         password: this.password,
