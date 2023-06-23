@@ -2,7 +2,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "https://${API_BASE_URL}/api/$1"
+      "dest": "http://${API_BASE_URL}/api/$1"
     }
   ]
 }
