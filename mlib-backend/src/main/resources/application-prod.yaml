@@ -11,13 +11,14 @@ spring:
       max-file-size: 200MB
       max-request-size: 215MB
 
+  # 配置为自己的邮箱地址和密钥
   mail:
-    host: smtp.163.com
-    username: lmiomail@163.com
-    password: VPNNRWHYFWJHSRPN
+    host:
+    username:
+    password:
     port: 465
     properties:
-      form: lmiomail@163.com
+      form:
       mail:
         smtp:
           socketFactory:
