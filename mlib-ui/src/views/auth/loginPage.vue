@@ -127,7 +127,8 @@ export default {
         username: this.username,
         password: this.password,
         remember: this.remember,
-      }, () => {
+      }, (message) => {
+        this.snackbar.showSuccessMessage(message)
         router.push('/index')
       }, (message) => {
         this.snackbar.showErrorMessage(message)

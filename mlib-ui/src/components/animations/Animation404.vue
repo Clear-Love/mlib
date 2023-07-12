@@ -3,7 +3,7 @@ import { Vue3Lottie } from "vue3-lottie";
 const props = defineProps({
   size: {
     type: Number,
-    default: 500,
+    default: 400,
   },
 });
 </script>
@@ -11,8 +11,8 @@ const props = defineProps({
 <template>
   <Vue3Lottie
     animationLink="https://assets2.lottiefiles.com/packages/lf20_cr9slsdh.json"
-    :height="props.size?.toString()"
-    :width="props.size?.toString()"
+    :height="props.size"
+    :width="props.size"
   />
 </template>
 

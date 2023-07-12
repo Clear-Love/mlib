@@ -1,5 +1,8 @@
 package com.lmio.mlib.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.lmio.mlib.entity.BookList;
+
 /**
  * @Author: lmio
  * @Description: TODO
@@ -8,6 +11,5 @@ package com.lmio.mlib.service;
  */
 
 
-public interface BookListService {
-    int createBookList(int userId, String bookListName);
+public interface BookListService extends IService<BookList> {
 }

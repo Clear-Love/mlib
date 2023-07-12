@@ -1,7 +1,7 @@
 package com.lmio.mlib.controller;
 
+import com.lmio.mlib.Bean.RestBean;
 import com.lmio.mlib.entity.User;
-import com.lmio.mlib.entity.RestBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

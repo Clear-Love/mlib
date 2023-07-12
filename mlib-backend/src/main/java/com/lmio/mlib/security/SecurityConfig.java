@@ -1,5 +1,10 @@
 package com.lmio.mlib.security;
 
+import com.lmio.mlib.security.handler.AuthFailureHandler;
+import com.lmio.mlib.security.handler.AuthSuccessHandler;
+import com.lmio.mlib.security.handler.MyLogoutSuccessHandler;
+import com.lmio.mlib.service.AuthorizeService;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,13 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.lmio.mlib.security.handler.AuthFailureHandler;
-import com.lmio.mlib.security.handler.AuthSuccessHandler;
-import com.lmio.mlib.security.handler.MyLogoutSuccessHandler;
-import com.lmio.mlib.service.AuthorizeService;
-
-import jakarta.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
@@ -44,14 +42,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-     
+
         http
-            .authorizeHttpRequests()
-            .requestMatchers("api/auth/**").permitAll()
-                .requestMatchers("api/book/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/druid/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
                 .loginProcessingUrl("/api/auth/login")
                 .successHandler(authSuccessHandler)
                 .failureHandler(authFailureHandler)
@@ -67,10 +65,9 @@ public class SecurityConfig {
                 .cors()
                 .configurationSource(this.corsConfigurationSource())
                 .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(authEntryPoint);
-        http.headers().frameOptions().sameOrigin();
- 
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntryPoint);
+
         return http.build();
     }
 

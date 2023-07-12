@@ -3,9 +3,9 @@
  * @Date: 2023-04-11 20:45:22
  * @LastEditTime: 2023-04-11 21:18:40
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/entity/RestBean.java
- * @Description: 
+ * @Description:
  */
-package com.lmio.mlib.entity;
+package com.lmio.mlib.Bean;
 
 import lombok.Data;
 

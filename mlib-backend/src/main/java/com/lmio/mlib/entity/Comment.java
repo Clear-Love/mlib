@@ -1,8 +1,10 @@
 package com.lmio.mlib.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * @Author: lmio
@@ -12,11 +14,12 @@ import java.io.Serializable;
  */
 
 @Data
-public class Comment implements Serializable {
-    private int comment_id; // 评论id
-    private int book_id; // 图书id
-    private int user_id; // 用户id
+public class Comment {
+    @TableId(type = IdType.AUTO)
+    private Integer commentId; // 评论id
+    private Integer bookId; // 图书id
+    private Integer userId; // 用户id
     private String content; // 评论内容
-    private Data time; // 评论时间
+    private Date time; // 评论时间
     private String type; // 评论类型
 }

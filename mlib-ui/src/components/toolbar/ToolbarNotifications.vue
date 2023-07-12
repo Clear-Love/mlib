@@ -12,7 +12,7 @@
     <v-card max-width="300">
       <v-list elevation="1" lines="three" density="compact">
         <v-list-subheader>消息</v-list-subheader>
-        <v-list-item v-for="(message, i) in messages" :key="i" @click="">
+        <v-list-item v-for="(message, i) in messages" :key="i">
           <!-- ---------------------------------------------- -->
           <!-- Prepend-->
           <!-- ---------------------------------------------- -->

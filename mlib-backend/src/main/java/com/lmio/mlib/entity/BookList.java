@@ -7,20 +7,20 @@ package com.lmio.mlib.entity;
  * @Modified By:lmio
  */
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class BookList implements Serializable {
-    private int listId; // 书单id
+public class BookList {
+    @TableId(type = IdType.AUTO)
+    private Integer listId; // 书单id
     private String listName; // 书单名
     private String description; // 简介
     private Date createTime; // 创建时间
-    private int createUser; // 创建者
-    private int collectCount; // 收藏数
-    private int bookCount; // 包含图书数
-    private List<Book> books; // 图书列表
+    private Integer createUser; // 创建者
+    private Integer collectCount; // 收藏数
+    private Integer bookCount; // 包含图书数
 }

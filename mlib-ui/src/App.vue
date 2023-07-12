@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
+import MainLayout from "@/layouts/MainLayout.vue";
 import CustomizationMenu from "@/components/CustomizationMenu.vue";
 import { useCustomizeThemeStore } from "@/stores/customizeTheme";
 import BackToTop from "@/components/common/BackToTop.vue";
@@ -29,9 +30,10 @@ const isRouterLoaded = computed(() => {
 const layouts = {
   default: DefaultLayout,
   auth: AuthLayout,
+  main: MainLayout,
 };
 
-type LayoutName = "default" | "ui" | "landing" | "auth" | "error";
+type LayoutName = "default" | "main" | "auth" | "error";
 
 const currentLayout = computed(() => {
   const layoutName = route.meta["layout"] as LayoutName

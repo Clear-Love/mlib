@@ -3,7 +3,7 @@
  * @Date: 2023-04-21 17:24:37
  * @LastEditTime: 2023-04-23 16:35:27
  * @FilePath: /mlib/mlib-backend/src/main/java/com/lmio/mlib/service/impl/RedisServiceimpl.java
- * @Description: 
+ * @Description:
  */
 package com.lmio.mlib.service.impl;
 
@@ -24,5 +24,4 @@ public class RedisServiceimpl {
     public Object getValue(String key) {
         return redisTemplate.opsForValue().get(key);
     }
-
 }

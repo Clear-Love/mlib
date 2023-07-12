@@ -1,10 +1,9 @@
 package com.lmio.mlib.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.lmio.mlib.entity.Book;
-import com.lmio.mlib.entity.BookPath;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * @Author: lmio
@@ -12,20 +11,13 @@ import java.util.List;
  * @Date: 下午3:31 2023/5/13
  * @Modified By:lmio
  */
-public interface EbookService {
+public interface EbookService extends IService<Book> {
 
-    List<Book> findBookByTitle(String title);
+    IPage<Book> findBookByTitle(Page<Book> page, String title);
 
-    List<Book> findBookByISBN(String ISBN);
+    IPage<Book> findBookByISBN(Page<Book> page, String ISBN);
 
-    List<Book> findBookById(int bookId);
+    IPage<Book> findBooksByAuthor(Page<Book> page, String author);
 
-    List<Book> findBooksByAuthor(String author);
-
-    List<Book> findBooksByConditions(String bookName, String publisher, String author);
-
-    List<Book> findBooksByText(String text);
-
-    List<BookPath> findBookPathByBookId(int bookId);
-
+    IPage<Book> findBooksByText(Page<Book> page, String text);
 }

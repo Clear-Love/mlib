@@ -1,9 +1,8 @@
 package com.lmio.mlib.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.sql.Date;
 
 /**
  * @Author: lmio
@@ -13,17 +12,18 @@ import java.sql.Date;
  */
 
 @Data
-public class Book implements Serializable {
+public class Book {
+    @TableId(type = IdType.AUTO)
     private String isbn; // ISBN编号
-    private int bookId;
+    private Integer bookId;
     private String title; // 书名
     private String author; // 作者
     private String publisher; // 出版社名称（外码）
     private String publishDate; // 出版时间
     private String language; // 语言
-    private int collectCount; // 收藏次数
+    private Integer collectCount; // 收藏次数
     private String description; // 简介
     private String price; // 价格
     private String coverImage; //封面
-    private String ratingNUm; //评分
+    private String ratingNum; //评分
 }

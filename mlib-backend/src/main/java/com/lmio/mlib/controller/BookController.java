@@ -1,14 +1,17 @@
 package com.lmio.mlib.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lmio.mlib.Bean.RestBean;
+import com.lmio.mlib.Bean.libPage;
 import com.lmio.mlib.entity.Book;
-import com.lmio.mlib.entity.RestBean;
-import com.lmio.mlib.mapper.BookMapper;
 import com.lmio.mlib.service.EbookService;
 import jakarta.annotation.Resource;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: lmio
@@ -23,10 +26,10 @@ public class BookController {
     @Resource
     EbookService ebookService;
 
-    @PostMapping ("/search")
-    public RestBean<List<Book>> searchBook(@RequestParam("text") @Length(min = 1, max = 20) String text) {
-        System.out.println(text);
-        List<Book> books = ebookService.findBooksByText(text);
+    @PostMapping("/search")
+    public RestBean<IPage<Book>> searchBook(libPage page, @RequestParam("text") @Length(min = 1, max = 20) String text) {
+        System.out.println(page);
+        IPage<Book> books = ebookService.findBooksByText(new Page<>(page.getPage(), page.getLimit()), text);
         return RestBean.success(books);
     }
 }

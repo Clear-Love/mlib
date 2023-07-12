@@ -7,26 +7,24 @@
  */
 package com.lmio.mlib.security.handler;
 
-import java.io.IOException;
-
+import com.alibaba.fastjson.JSONObject;
+import com.lmio.mlib.Bean.RestBean;
 import com.lmio.mlib.entity.User;
-import com.lmio.mlib.mapper.UserMapper;
+import com.lmio.mlib.service.UserSerivce;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
-import com.lmio.mlib.entity.RestBean;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
     @Resource
-    UserMapper mapper;
+    UserSerivce userSerivce;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -34,9 +32,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         response.setContentType("application/json;charset=utf-8");
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         String username = user.getUsername();
-        User userinfo =  mapper.findUserByNameOrEmail(username);
+        User userinfo = userSerivce.findUserByNameOrEmail(username);
         if (request != null) {
             request.getSession().setAttribute("user-info", userinfo);
         }
         response.getWriter().write(JSONObject.toJSONString(RestBean.success("登录成功！", userinfo)));
-    }}
+    }
+}
