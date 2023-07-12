@@ -7,6 +7,9 @@ docker compose up -d --build
 
 cd ../ || exit
 # 构建镜像
+export VITE_BASE_URL=http://localhost:8080
+docker kill mlib-ui
+docker rm mlib-ui
 docker build -t mlib-ui ./mlib-ui
 
 # 运行容器
