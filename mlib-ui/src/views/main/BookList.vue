@@ -36,11 +36,8 @@ export default {
       if (this.loading || !this.hasMoreData) return;
 
       this.loading = true;
-
-      // Make an API request to fetch books
-      const url = 'http://localhost:8080/api/book/search';
       // You can use axios or any other HTTP library to make the request
-      post(url, {
+      post('/api/book/search', {
         text: '三国',
         page: this.page,
         limit: this.limit,
