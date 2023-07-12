@@ -2,7 +2,7 @@
 
 # 后端构建
 cd mlib-backend || exit
-docker compose up -d
+docker compose up -d --build
 
 
 cd ../ || exit
