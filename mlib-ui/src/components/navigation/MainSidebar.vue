@@ -13,7 +13,7 @@ const customizeTheme = useCustomizeThemeStore();
 const navigation = ref(configs.navigation);
 
 const openGithubSite = () => {
-  window.open("https://github.com/yangjiakai", "_blank");
+  window.open("https://github.com/Clear-Love/mlib", "_blank");
 };
 
 onMounted(() => {
@@ -57,7 +57,7 @@ const scrollToBottom = () => {
           alt=""
         />
         <img
-          v-else="customizeTheme.darkTheme"
+          v-else
           width="200"
           src="@/assets/logo_light.svg"
           alt=""
@@ -80,7 +80,7 @@ const scrollToBottom = () => {
         height="225"
         class="pa-3"
         variant="text"
-        style="box-shadow: rgba(0, 0, 0, 0.05) 0px -25px 15px -20px"
+        style="box-shadow: rgba(0, 0, 0, 0.05) 0 -25px 15px -20px"
       >
         <v-card
           class="d-flex flex-column gradient pa-2"
@@ -97,7 +97,7 @@ const scrollToBottom = () => {
             >
               <Icon width="30" icon="line-md:github-loop" />
             </v-btn>
-            Lmio
+            lmio
           </v-card-title>
           <v-card-subtitle> </v-card-subtitle>
           <v-card-text>

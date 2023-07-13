@@ -2,8 +2,8 @@ import enMessages from "../locales/en";
 import zhMessages from "../locales/zh";
 import jaMessages from "../locales/ja";
 
-const supported = ["en", "zhHans", "ja"];
-let locale = "en";
+const supported = ["en", "zh", "ja"];
+let locale = "zh";
 
 try {
   // get browser default language
@@ -31,7 +31,7 @@ export default {
       messages: enMessages,
     },
     {
-      code: "zhHans",
+      code: "zh",
       flag: "cn",
       name: "china",
       label: "中文",

@@ -5,17 +5,18 @@ import MainSidebar from "@/components/navigation/MainSidebar.vue";
 import MainAppbar from "@/components/toolbar/MainAppbar.vue";
 import { useCustomizeThemeStore } from "@/stores/customizeTheme";
 const customizeTheme = useCustomizeThemeStore();
+
 </script>
 
 <template>
   <!-- ---------------------------------------------- -->
   <!---Main Sidebar -->
   <!-- ---------------------------------------------- -->
-  <MainSidebar />
+  <MainSidebar/>
   <!-- ---------------------------------------------- -->
   <!---Top AppBar -->
   <!-- ---------------------------------------------- -->
-  <MainAppbar />
+  <MainAppbar/>
   <!-- ---------------------------------------------- -->
   <!---MainArea -->
   <!-- ---------------------------------------------- -->

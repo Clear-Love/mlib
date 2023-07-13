@@ -14,25 +14,25 @@ export default {
           key: "menu.bookList",
           text: "bookList",
           link: "/bookList",
-          icon: "mdi-music",
+          icon: "mdi-book",
         },
         {
           key: "menu.rank",
           text: "rank",
           link: "/rank",
-          icon: "mdi-rank",
+          icon: "mdi-signal Cellular Alt",
         },
         {
           key: "menu.like",
           text: "like",
           link: "/like",
-          icon: "mdi-like",
+          icon: "mdi-star",
         },
         {
           key: "menu.setting",
           text: "setting",
           link: "/setting",
-          icon: "mdi-setting",
+          icon: "mdi-apps",
         }
       ],
     }]

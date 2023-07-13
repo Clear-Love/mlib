@@ -9,7 +9,7 @@
         <v-badge content="1" v-if="messageCnt>0" color="error" offset-x="-5" offset-y="-15"/>
       </v-btn>
     </template>
-    <v-card max-width="300">
+    <v-card min-width="270">
       <v-list elevation="1" lines="three" density="compact">
         <v-list-subheader>消息</v-list-subheader>
         <v-list-item v-for="(message, i) in messages" :key="i">

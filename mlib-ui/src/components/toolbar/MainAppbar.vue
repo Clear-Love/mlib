@@ -9,10 +9,42 @@ import { useCustomizeThemeStore } from "@/stores/customizeTheme";
 import ToolbarLanguage from "@/components/toolbar/ToolbarLanguage.vue";
 import ToolbarNotifications from "./ToolbarNotifications.vue";
 import ToolbarUser from "./ToolbarUser.vue";
-import {ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
+import eventBus from "@/utils/eventBus";
 const { mdAndUp } = useDisplay();
 const customizeTheme = useCustomizeThemeStore();
 const showMobileSearch = ref(false);
+const searchInput = ref<HTMLElement | null>();
+const searchText = ref('');
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.key === '/') {
+    event.preventDefault()
+    searchInput.value?.focus()
+  }
+};
+
+const search = () => {
+  if (searchInput.value && searchText.value) {
+    // Perform search logic here
+    eventBus.emit('search', searchText)
+  }
+};
+
+const handleEnter = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    search();
+  }
+};
+onMounted(() => {
+  document.addEventListener('keydown', handleKeyDown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeyDown)
+})
+
+
 </script>
 
 <template>
@@ -41,7 +73,8 @@ const showMobileSearch = ref(false);
       <v-app-bar-nav-icon
         @click="customizeTheme.mainSidebar = !customizeTheme.mainSidebar"
       ></v-app-bar-nav-icon>
-      <div>
+      <v-spacer></v-spacer>
+      <div class="align-center">
         <v-text-field
           v-if="mdAndUp"
           class="ml-2"
@@ -49,10 +82,15 @@ const showMobileSearch = ref(false);
           color="primary"
           variant="solo"
           density="compact"
-          prepend-inner-icon="mdi-magnify"
           hide-details
           placeholder="Search"
+          ref="searchInput"
+          v-model="searchText"
+          @keydown.enter="handleEnter"
         ></v-text-field>
+      </div>
+      <div>
+        <v-btn v-if="mdAndUp" icon="mdi-magnify" @click="search" id="search-button"></v-btn>
       </div>
 
       <v-spacer></v-spacer>
@@ -69,11 +107,6 @@ const showMobileSearch = ref(false);
           </v-badge>
         </v-btn>
         <ToolbarNotifications />
-        <v-btn v-if="mdAndUp" icon to="/apps/todo">
-          <v-badge>
-            <v-icon>mdi-calendar-check</v-icon>
-          </v-badge>
-        </v-btn>
         <v-divider vertical thickness="2" inset class="ml-5 mr-1"></v-divider>
 
         <ToolbarLanguage />
