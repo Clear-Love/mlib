@@ -20,8 +20,8 @@ spring:
 
   mail:
     host: smtp.163.com
-    username: lmiomail@163.com
-    password: VPNNRWHYFWJHSRPN
+    username:
+    password:
     port: 465
     properties:
       form: lmiomail@163.com
